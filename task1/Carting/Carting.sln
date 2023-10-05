@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1706.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carting.Core", "Carting\Carting.Core.csproj", "{1B2AB9F7-0AC4-4813-BFD6-4081B88D3821}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carting.Infrastructure", "Carting.Infrastructure\Carting.Infrastructure.csproj", "{42871957-89D7-4BF2-A5E6-0837D33C4714}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B2AB9F7-0AC4-4813-BFD6-4081B88D3821}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B2AB9F7-0AC4-4813-BFD6-4081B88D3821}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B2AB9F7-0AC4-4813-BFD6-4081B88D3821}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B2AB9F7-0AC4-4813-BFD6-4081B88D3821}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42871957-89D7-4BF2-A5E6-0837D33C4714}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42871957-89D7-4BF2-A5E6-0837D33C4714}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42871957-89D7-4BF2-A5E6-0837D33C4714}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42871957-89D7-4BF2-A5E6-0837D33C4714}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2046AFBA-5003-408D-9082-1B5551772537}
+	EndGlobalSection
+EndGlobal
