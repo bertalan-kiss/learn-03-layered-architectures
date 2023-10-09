@@ -6,6 +6,9 @@ namespace Carting.Core.Mappers
     {
         public static Infrastructure.DataAccess.Models.CartItem Map(CartItem cartItem)
         {
+            if (cartItem == null)
+                throw new ArgumentNullException(nameof(cartItem));
+
             return new Infrastructure.DataAccess.Models.CartItem
             {
                 CartId = cartItem.CartId,
@@ -23,6 +26,9 @@ namespace Carting.Core.Mappers
 
         public static CartItem Map(Infrastructure.DataAccess.Models.CartItem cartItem)
         {
+            if (cartItem == null) 
+                throw new ArgumentNullException(nameof(cartItem));
+
             return new CartItem
             {
                 CartId = cartItem.CartId,
@@ -40,6 +46,9 @@ namespace Carting.Core.Mappers
 
         public static List<CartItem> Map(List<Infrastructure.DataAccess.Models.CartItem> cartItems)
         {
+            if (cartItems == null) 
+                throw new ArgumentNullException(nameof(cartItems));
+
             var result = new List<CartItem>();
             cartItems.ForEach(i => result.Add(Map(i)));
 

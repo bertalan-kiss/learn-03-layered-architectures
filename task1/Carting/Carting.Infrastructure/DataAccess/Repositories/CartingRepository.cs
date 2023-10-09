@@ -5,13 +5,14 @@ namespace Carting.Infrastructure.DataAccess.Repositories
 {
     public class CartingRepository : ICartingRepository
     {
-        private readonly string DatabasePath = "CartingDatabase.db";
+        private const string DatabasePath = "CartingDatabase.db";
+        private const string CartItemsTableName = "cart_items";
 
         public List<CartItem> GetCartItems(int cartId)
         {
             using var db = new LiteDatabase(DatabasePath);
 
-            var collection = db.GetCollection<CartItem>("cart_items");
+            var collection = db.GetCollection<CartItem>(CartItemsTableName);
 
             return collection.Find($"$.CartId = {cartId}").ToList();
         }
@@ -20,7 +21,7 @@ namespace Carting.Infrastructure.DataAccess.Repositories
         {
             using var db = new LiteDatabase(DatabasePath);
 
-            var collection = db.GetCollection<CartItem>("cart_items");
+            var collection = db.GetCollection<CartItem>(CartItemsTableName);
             collection.Insert(cartItem);
         }
 
@@ -28,7 +29,7 @@ namespace Carting.Infrastructure.DataAccess.Repositories
         {
             using var db = new LiteDatabase(DatabasePath);
 
-            var collection = db.GetCollection<CartItem>("cart_items");
+            var collection = db.GetCollection<CartItem>(CartItemsTableName);
             collection.Delete(cartItemId);
         }
     }
