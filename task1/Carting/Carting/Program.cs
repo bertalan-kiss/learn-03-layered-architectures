@@ -1,6 +1,6 @@
 ﻿using Carting.Core;
 using Carting.Core.Services;
-using Carting.Infrastructure;
+using Carting.DataAccess;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Carting;
@@ -11,7 +11,7 @@ class Program
     {
         var serviceProvider = new ServiceCollection()
             .AddCoreServices()
-            .AddInfrastuctureRepositories()
+            .AddDataAccessRepositories()
             .BuildServiceProvider();
 
         var cartingService = serviceProvider.GetService<ICartingService>();

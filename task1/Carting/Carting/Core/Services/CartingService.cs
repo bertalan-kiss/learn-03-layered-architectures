@@ -1,6 +1,6 @@
 ﻿using Carting.Core.Mappers;
 using Carting.Core.Models;
-using Carting.Infrastructure.DataAccess.Repositories;
+using Carting.DataAccess.Repositories;
 
 namespace Carting.Core.Services
 {

@@ -7,7 +7,7 @@ namespace Carting.Core
     {
         public static IServiceCollection AddCoreServices(this IServiceCollection collection)
         {
-            collection.AddTransient<ICartingService, CartingService>();
+            collection.AddSingleton<ICartingService, CartingService>();
             return collection;
         }
     }

@@ -1,7 +1,7 @@
-﻿using Carting.Infrastructure.DataAccess.Models;
+﻿using Carting.DataAccess.Models;
 using LiteDB;
 
-namespace Carting.Infrastructure.DataAccess.Repositories
+namespace Carting.DataAccess.Repositories
 {
     public class CartingRepository : ICartingRepository
     {

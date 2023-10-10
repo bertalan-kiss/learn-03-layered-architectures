@@ -1,4 +1,4 @@
-﻿namespace Carting.Infrastructure.DataAccess.Models
+﻿namespace Carting.DataAccess.Models
 {
     public class CartItem
     {
