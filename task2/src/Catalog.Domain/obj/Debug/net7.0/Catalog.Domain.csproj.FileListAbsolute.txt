@@ -1,0 +1,11 @@
+/Users/bertalankiss/Library/Mobile Documents/com~apple~CloudDocs/Projects/learn-03-layered-architectures/task2/src/Catalog.Domain/bin/Debug/net7.0/Catalog.Domain.deps.json
+/Users/bertalankiss/Library/Mobile Documents/com~apple~CloudDocs/Projects/learn-03-layered-architectures/task2/src/Catalog.Domain/bin/Debug/net7.0/Catalog.Domain.dll
+/Users/bertalankiss/Library/Mobile Documents/com~apple~CloudDocs/Projects/learn-03-layered-architectures/task2/src/Catalog.Domain/bin/Debug/net7.0/Catalog.Domain.pdb
+/Users/bertalankiss/Library/Mobile Documents/com~apple~CloudDocs/Projects/learn-03-layered-architectures/task2/src/Catalog.Domain/obj/Debug/net7.0/Catalog.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/bertalankiss/Library/Mobile Documents/com~apple~CloudDocs/Projects/learn-03-layered-architectures/task2/src/Catalog.Domain/obj/Debug/net7.0/Catalog.Domain.AssemblyInfoInputs.cache
+/Users/bertalankiss/Library/Mobile Documents/com~apple~CloudDocs/Projects/learn-03-layered-architectures/task2/src/Catalog.Domain/obj/Debug/net7.0/Catalog.Domain.AssemblyInfo.cs
+/Users/bertalankiss/Library/Mobile Documents/com~apple~CloudDocs/Projects/learn-03-layered-architectures/task2/src/Catalog.Domain/obj/Debug/net7.0/Catalog.Domain.csproj.CoreCompileInputs.cache
+/Users/bertalankiss/Library/Mobile Documents/com~apple~CloudDocs/Projects/learn-03-layered-architectures/task2/src/Catalog.Domain/obj/Debug/net7.0/Catalog.Domain.dll
+/Users/bertalankiss/Library/Mobile Documents/com~apple~CloudDocs/Projects/learn-03-layered-architectures/task2/src/Catalog.Domain/obj/Debug/net7.0/refint/Catalog.Domain.dll
+/Users/bertalankiss/Library/Mobile Documents/com~apple~CloudDocs/Projects/learn-03-layered-architectures/task2/src/Catalog.Domain/obj/Debug/net7.0/Catalog.Domain.pdb
+/Users/bertalankiss/Library/Mobile Documents/com~apple~CloudDocs/Projects/learn-03-layered-architectures/task2/src/Catalog.Domain/obj/Debug/net7.0/ref/Catalog.Domain.dll
