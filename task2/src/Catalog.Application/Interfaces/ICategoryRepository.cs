@@ -5,11 +5,11 @@ namespace Catalog.Application.Interfaces
 {
 	public interface ICategoryRepository
 	{
-        void Add(Category category);
-        Category Get(int id);
-        IEnumerable<Category> List();
-        void Update(Category category);
-        void Delete(int id);
+        Task<int> Add(Category category);
+        Task<Category> Get(int id);
+        Task<IEnumerable<Category>> List();
+        Task Update(Category category);
+        Task Delete(int id);
     }
 }
 

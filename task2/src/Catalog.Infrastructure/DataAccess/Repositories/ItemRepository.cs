@@ -1,7 +1,7 @@
 ﻿using Catalog.Application.Interfaces;
 using Catalog.Domain.Entities;
 
-namespace Catalog.Infrastructure;
+namespace Catalog.Infrastructure.DataAccess.Repositories;
 
 public class ItemRepository : IItemRepository
 {

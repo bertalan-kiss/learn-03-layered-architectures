@@ -12,29 +12,29 @@ public class CategoryService : ICategoryService
         this.categoryRepository = categoryRepository;
     }
 
-    public void Add(Category category)
+    public async Task<int> Add(Category category)
     {
-        categoryRepository.Add(category);
+        return await categoryRepository.Add(category);
     }
 
-    public void Delete(int id)
+    public async Task Delete(int id)
     {
-        categoryRepository.Delete(id);
+        await categoryRepository.Delete(id);
     }
 
-    public Category Get(int id)
+    public async Task<Category> Get(int id)
     {
-        return categoryRepository.Get(id);
+        return await categoryRepository.Get(id);
     }
 
-    public IEnumerable<Category> List()
+    public async Task<IEnumerable<Category>> List()
     {
-        return categoryRepository.List();
+        return await categoryRepository.List();
     }
 
-    public void Update(Category category)
+    public async Task Update(Category category)
     {
-        categoryRepository.Update(category);
+        await categoryRepository.Update(category);
     }
 }
 

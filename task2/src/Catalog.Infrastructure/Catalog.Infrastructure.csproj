@@ -7,12 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Repositories\" />
+    <None Remove="DataAccess\" />
+    <None Remove="DataAccess\Repositories\" />
+    <None Remove="DataAccess\Scripts\" />
+    <None Remove="DataAccess\Configuration\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Repositories\" />
+    <Folder Include="DataAccess\" />
+    <Folder Include="DataAccess\Repositories\" />
+    <Folder Include="DataAccess\Scripts\" />
+    <Folder Include="DataAccess\Configuration\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Catalog.Application\Catalog.Application.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.11" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
   </ItemGroup>
 </Project>
