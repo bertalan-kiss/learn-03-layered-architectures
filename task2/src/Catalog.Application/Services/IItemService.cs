@@ -4,11 +4,11 @@ namespace Catalog.Application.Services
 {
 	public interface IItemService
 	{
-		void Add(Item item);
-		Item Get(int id);
-        IEnumerable<Item> List();
-        void Update(Item category);
-        void Delete(int id);
+		Task<int> Add(Item item);
+		Task<Item> Get(int id);
+        Task<IEnumerable<Item>> List();
+        Task Update(Item item);
+        Task Delete(int id);
     }
 }
 

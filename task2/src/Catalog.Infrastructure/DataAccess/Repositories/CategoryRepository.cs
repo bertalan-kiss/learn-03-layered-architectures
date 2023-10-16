@@ -1,5 +1,6 @@
 ﻿using Catalog.Application.Interfaces;
 using Catalog.Domain.Entities;
+using Catalog.Domain.Exceptions;
 using Catalog.Infrastructure.DataAccess.Configuration;
 using Dapper;
 using Microsoft.Data.SqlClient;
@@ -27,14 +28,14 @@ namespace Catalog.Infrastructure.DataAccess.Repositories
                     @ParentId
                 )";
 
-            var categoryItem = new
+            var parameters = new
             {
                 Name = category.Name,
                 ImageUrl = category.ImageUrl,
                 ParentId = category.Parent?.Id
             };
 
-            return await connection.QuerySingleAsync<int>(sql, categoryItem);
+            return await connection.QuerySingleAsync<int>(sql, parameters);
         }
 
         public async Task Delete(int id)
@@ -44,7 +45,10 @@ namespace Catalog.Infrastructure.DataAccess.Repositories
             var sql = @"DELETE FROM Category WHERE Id = @Id";
             var parameters = new { Id = id};
 
-            await connection.ExecuteAsync(sql, parameters);
+            var rowsAffected = await connection.ExecuteAsync(sql, parameters);
+
+            if (rowsAffected == 0)
+                throw new CategoryNotFoundException($"Category not found with id: {id}");
         }
 
         public async Task<Category> Get(int id)
@@ -63,12 +67,14 @@ namespace Catalog.Infrastructure.DataAccess.Repositories
                             ON cte.ParentId = c.Id
                 )
                 SELECT * FROM cte";
+
             var parameters = new { Id = id };
 
             var items = await connection.QueryAsync(sql, parameters);
             var mainItem = items.SingleOrDefault(i => i.Id == id);
 
-            // TODO throw ex
+            if (mainItem == null)
+                throw new CategoryNotFoundException($"Category not found with id: {id}");
 
             return new Category
             {
@@ -117,12 +123,18 @@ namespace Catalog.Infrastructure.DataAccess.Repositories
                     Id = @Id";
 
             var parameters = new { Name = category.Name, ImageUrl = category.ImageUrl, ParentId = category.Parent?.Id, Id = category.Id };
-            await connection.ExecuteAsync(sql, parameters);
+            var rowsAffected = await connection.ExecuteAsync(sql, parameters);
+
+            if (rowsAffected == 0)
+                throw new CategoryNotFoundException($"Category not found with id: {category.Id}");
         }
 
         private Category GetParentCategory(int? id, IEnumerable<dynamic> items)
         {
             var parentItem = items.SingleOrDefault(i => i.Id == id);
+
+            if (parentItem == null)
+                throw new CategoryNotFoundException($"Parent category not found with id: {id}");
 
             return new Category
             {

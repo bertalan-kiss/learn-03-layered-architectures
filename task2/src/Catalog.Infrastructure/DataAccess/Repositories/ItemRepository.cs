@@ -1,33 +1,153 @@
 ﻿using Catalog.Application.Interfaces;
 using Catalog.Domain.Entities;
+using Catalog.Domain.Exceptions;
+using Catalog.Infrastructure.DataAccess.Configuration;
+using Dapper;
+using Microsoft.Data.SqlClient;
 
 namespace Catalog.Infrastructure.DataAccess.Repositories;
 
 public class ItemRepository : IItemRepository
 {
-    public void Add(Item item)
+    private readonly ICategoryRepository categoryRepository;
+
+    public ItemRepository(ICategoryRepository categoryRepository)
     {
-        throw new NotImplementedException();
+        this.categoryRepository = categoryRepository;
     }
 
-    public void Delete(int id)
+    public async Task<int> Add(Item item)
     {
-        throw new NotImplementedException();
+        using var connection = new SqlConnection(Settings.ConnectionString);
+
+        var sql = @"
+            INSERT INTO Item
+            (
+                Name,
+                Description,
+                ImageUrl,
+                CategoryId,
+                Price,
+                Amount
+            )
+            OUTPUT INSERTED.Id
+            VALUES
+            (
+                @Name,
+                @Description,
+                @ImageUrl,
+                @CategoryId,
+                @Price,
+                @Amount
+            )";
+
+        var parameters = new
+        {
+            Name = item.Name,
+            Description = item.Description,
+            ImageUrl = item.ImageUrl,
+            CategoryId = item.Category.Id,
+            Price = item.Price,
+            Amount = item.Amount
+        };
+
+        return await connection.QuerySingleAsync<int>(sql, parameters);
     }
 
-    public Item Get(int id)
+    public async Task Delete(int id)
     {
-        throw new NotImplementedException();
+        using var connection = new SqlConnection(Settings.ConnectionString);
+
+        var sql = @"DELETE FROM Item WHERE Id = @Id";
+        var parameters = new { Id = id };
+
+        var rowsAffected = await connection.ExecuteAsync(sql, parameters);
+
+        if (rowsAffected == 0)
+            throw new ItemNotFoundException($"Item not found with id: {id}");
     }
 
-    public IEnumerable<Item> List()
+    public async Task<Item> Get(int id)
     {
-        throw new NotImplementedException();
+        using var connection = new SqlConnection(Settings.ConnectionString);
+
+        var sql = "SELECT * FROM Item WHERE Id = @Id";
+
+        var parameters = new { Id = id };
+        var item = await connection.QuerySingleOrDefaultAsync(sql, parameters);
+
+        if (item == null)
+            throw new ItemNotFoundException($"Item not found with id: {id}");
+
+        return new Item
+        {
+            Id = item.Id,
+            Name = item.Name,
+            Description = item.Description,
+            ImageUrl = item.ImageUrl,
+            Category = await categoryRepository.Get(item.CategoryId),
+            Price = item.Price,
+            Amount = item.Amount
+        };
     }
 
-    public void Update(Item category)
+    public async Task<IEnumerable<Item>> List()
     {
-        throw new NotImplementedException();
+        using var connection = new SqlConnection(Settings.ConnectionString);
+
+        var sql = "SELECT * FROM Item";
+
+        var items = await connection.QueryAsync(sql);
+
+        var result = new List<Item>();
+
+        foreach (var item in items)
+        {
+            result.Add(new Item
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Description = item.Description,
+                ImageUrl = item.ImageUrl,
+                Category = await categoryRepository.Get(item.CategoryId),
+                Price = item.Price,
+                Amount = item.Amount
+            });
+        }
+
+        return result;
+    }
+
+    public async Task Update(Item item)
+    {
+        using var connection = new SqlConnection(Settings.ConnectionString);
+
+        var sql = @"UPDATE
+                    Item
+                SET
+                    Name = @Name,
+                    Description = @Description,
+                    ImageUrl = @ImageUrl,
+                    CategoryId = @CategoryId,
+                    Price = @Price,
+                    Amount = @Amount
+                WHERE
+                    Id = @Id";
+
+        var parameters = new
+        {
+            Name = item.Name,
+            Description = item.Description,
+            ImageUrl = item.ImageUrl,
+            CategoryId = item.Category.Id,
+            Price = item.Price,
+            Amount = item.Amount,
+            Id = item.Id };
+
+        var rowsAffected = await connection.ExecuteAsync(sql, parameters);
+
+        if (rowsAffected == 0)
+            throw new ItemNotFoundException($"Item not found with id: {item.Id}");
     }
 }
 
