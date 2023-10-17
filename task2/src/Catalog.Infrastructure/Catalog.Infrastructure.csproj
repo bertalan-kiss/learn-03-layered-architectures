@@ -10,13 +10,11 @@
     <None Remove="DataAccess\" />
     <None Remove="DataAccess\Repositories\" />
     <None Remove="DataAccess\Scripts\" />
-    <None Remove="DataAccess\Configuration\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataAccess\" />
     <Folder Include="DataAccess\Repositories\" />
     <Folder Include="DataAccess\Scripts\" />
-    <Folder Include="DataAccess\Configuration\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Catalog.Application\Catalog.Application.csproj" />

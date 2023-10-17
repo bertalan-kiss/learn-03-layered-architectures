@@ -1,25 +1,22 @@
-﻿using Catalog.Application.Interfaces;
+﻿using System.Data;
+using Catalog.Application.Interfaces;
 using Catalog.Domain.Entities;
 using Catalog.Domain.Exceptions;
-using Catalog.Infrastructure.DataAccess.Configuration;
 using Dapper;
-using Microsoft.Data.SqlClient;
 
 namespace Catalog.Infrastructure.DataAccess.Repositories;
 
-public class ItemRepository : IItemRepository
+public class ItemRepository : BaseRepository, IItemRepository
 {
     private readonly ICategoryRepository categoryRepository;
 
-    public ItemRepository(ICategoryRepository categoryRepository)
+    public ItemRepository(ICategoryRepository categoryRepository, IDbConnection connection) : base(connection)
     {
         this.categoryRepository = categoryRepository;
     }
 
     public async Task<int> Add(Item item)
     {
-        using var connection = new SqlConnection(Settings.ConnectionString);
-
         var sql = @"
             INSERT INTO Item
             (
@@ -56,8 +53,6 @@ public class ItemRepository : IItemRepository
 
     public async Task Delete(int id)
     {
-        using var connection = new SqlConnection(Settings.ConnectionString);
-
         var sql = @"DELETE FROM Item WHERE Id = @Id";
         var parameters = new { Id = id };
 
@@ -69,8 +64,6 @@ public class ItemRepository : IItemRepository
 
     public async Task<Item> Get(int id)
     {
-        using var connection = new SqlConnection(Settings.ConnectionString);
-
         var sql = "SELECT * FROM Item WHERE Id = @Id";
 
         var parameters = new { Id = id };
@@ -93,8 +86,6 @@ public class ItemRepository : IItemRepository
 
     public async Task<IEnumerable<Item>> List()
     {
-        using var connection = new SqlConnection(Settings.ConnectionString);
-
         var sql = "SELECT * FROM Item";
 
         var items = await connection.QueryAsync(sql);
@@ -120,8 +111,6 @@ public class ItemRepository : IItemRepository
 
     public async Task Update(Item item)
     {
-        using var connection = new SqlConnection(Settings.ConnectionString);
-
         var sql = @"UPDATE
                     Item
                 SET

@@ -1,6 +1,9 @@
-﻿using Catalog.Application.Services;
+﻿using System.Data;
+using Catalog.Application.Services;
 using Catalog.Domain.Entities;
 using Catalog.Infrastructure;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Catalog.ConsoleApp;
@@ -9,57 +12,63 @@ class Program
 {
     static async Task Main(string[] args)
     {
+        // Sample console application to try out the services
+        var builder = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false);
+
+        IConfiguration config = builder.Build();
+        var databaseConfiguration = config.GetSection("DatabaseConfiguration").Get<DatabaseConfiguration>();
+
         var serviceProvider = new ServiceCollection()
             .AddApplicationServices()
             .AddApplicationValidators()
             .AddInfrastructureServices()
+            .AddSingleton<IDbConnection>(connection => new SqlConnection(databaseConfiguration.ConnectionString))
             .BuildServiceProvider();
 
         var categoryService = serviceProvider.GetService<ICategoryService>();
         var itemService = serviceProvider.GetService<IItemService>();
-        Console.WriteLine("Start");
+        
+        var insertedCategoryId = await categoryService.Add(new Category
+        {
+            Name = $"Category_{Guid.NewGuid()}",
+            Parent = new Category { Id = 23 }
+        });
 
-        //var insertedCategoryId = await categoryService.Add(new Category
-        //{
-        //    Name = $"Category_{Guid.NewGuid().ToString()}",
-        //    Parent = new Category { Id = 23 }
-        //});
+        var category = await categoryService.Get(insertedCategoryId);
 
-        //var item = await categoryService.Get(insertedCategoryId);
+        await categoryService.Update(new Category
+        {
+            Id = insertedCategoryId,
+            Name = "updated",
+            ImageUrl = "ImageUrl"
+        });
 
-        //Console.WriteLine($"{item.Id} {item.Name} {item.ImageUrl} {item.Parent?.Id}");
-        //Console.WriteLine();
+        category = await categoryService.Get(insertedCategoryId);
 
-        //await categoryService.Update(new Category
-        //{
-        //    Id = insertedId,
-        //    Name = "updated",
-        //    ImageUrl = "ImageUrl"
-        //});
+        await categoryService.Delete(insertedCategoryId);
 
-        //item = await categoryService.Get(insertedId);
+        var categories = await categoryService.List();
 
-        //Console.WriteLine($"{item.Id} {item.Name} {item.ImageUrl} {item.Parent?.Id}");
-        //Console.WriteLine();
-
-        //await categoryService.Delete(insertedId);
-        //var items = await categoryService.List();
-
-        //ListItems(items);
+        insertedCategoryId = await categoryService.Add(new Category
+        {
+            Name = $"Category_{Guid.NewGuid()}",
+            Parent = new Category { Id = 23 }
+        });
 
         var insertedItemId = await itemService.Add(new Item
         {
-            Name = $"Item_{Guid.NewGuid().ToString()[..8]}",
-            Category = new Category { Id = 1 },
+            Name = $"Item_{Guid.NewGuid()}",
+            Category = new Category { Id = insertedCategoryId },
             Price = 100,
-            //Amount = 2
+            Amount = 2
         });
 
         await itemService.Update(new Item
         {
             Id = insertedItemId,
-            Name = $"Item_{Guid.NewGuid().ToString()[..8]}",
-            Category = new Category { Id = 1 },
+            Name = $"Item_{Guid.NewGuid()}",
+            Category = new Category { Id = insertedCategoryId },
             Description = "Description",
             Price = 100,
             Amount = 10
@@ -73,15 +82,10 @@ class Program
 
         Console.WriteLine("End");
     }
+}
 
-    private static void ListItems(IEnumerable<Category> items)
-    {
-        foreach (var item in items)
-        {
-            Console.WriteLine($"{item.Id} {item.Name} {item.ImageUrl} {item.Parent?.Id}");
-        }
-
-        Console.WriteLine();
-    }
+public class DatabaseConfiguration
+{
+    public string ConnectionString { get; set; }
 }
 

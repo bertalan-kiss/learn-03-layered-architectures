@@ -1,18 +1,19 @@
-﻿using Catalog.Application.Interfaces;
+﻿using System.Data;
+using Catalog.Application.Interfaces;
 using Catalog.Domain.Entities;
 using Catalog.Domain.Exceptions;
-using Catalog.Infrastructure.DataAccess.Configuration;
 using Dapper;
-using Microsoft.Data.SqlClient;
 
 namespace Catalog.Infrastructure.DataAccess.Repositories
 {
-    public class CategoryRepository : ICategoryRepository
+    public class CategoryRepository : BaseRepository, ICategoryRepository
     {
+        public CategoryRepository(IDbConnection connection) : base(connection)
+        {
+        }
+
         public async Task<int> Add(Category category)
         {
-            using var connection = new SqlConnection(Settings.ConnectionString);
-
             var sql = @"
                 INSERT INTO Category
                 (
@@ -40,8 +41,6 @@ namespace Catalog.Infrastructure.DataAccess.Repositories
 
         public async Task Delete(int id)
         {
-            using var connection = new SqlConnection(Settings.ConnectionString);
-
             var sql = @"DELETE FROM Category WHERE Id = @Id";
             var parameters = new { Id = id };
 
@@ -53,8 +52,6 @@ namespace Catalog.Infrastructure.DataAccess.Repositories
 
         public async Task<Category> Get(int id)
         {
-            using var connection = new SqlConnection(Settings.ConnectionString);
-
             var sql = @"WITH cte AS
                 (
                     SELECT     Id, Name, ImageUrl, ParentId
@@ -87,8 +84,6 @@ namespace Catalog.Infrastructure.DataAccess.Repositories
 
         public async Task<IEnumerable<Category>> List()
         {
-            using var connection = new SqlConnection(Settings.ConnectionString);
-
             var sql = "SELECT * FROM Category";
 
             var items = await connection.QueryAsync(sql);
@@ -111,8 +106,6 @@ namespace Catalog.Infrastructure.DataAccess.Repositories
 
         public async Task Update(Category category)
         {
-            using var connection = new SqlConnection(Settings.ConnectionString);
-
             var sql = @"UPDATE
                     Category
                 SET
