@@ -6,7 +6,7 @@ using FluentValidation;
 namespace Catalog.Application.Services
 {
     public class ItemService : IItemService
-	{
+    {
         private readonly IItemRepository itemRepository;
         private readonly ItemValidator itemValidator;
 

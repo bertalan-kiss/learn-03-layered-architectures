@@ -43,7 +43,7 @@ namespace Catalog.Infrastructure.DataAccess.Repositories
             using var connection = new SqlConnection(Settings.ConnectionString);
 
             var sql = @"DELETE FROM Category WHERE Id = @Id";
-            var parameters = new { Id = id};
+            var parameters = new { Id = id };
 
             var rowsAffected = await connection.ExecuteAsync(sql, parameters);
 

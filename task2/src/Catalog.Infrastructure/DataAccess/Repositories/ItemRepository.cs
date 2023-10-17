@@ -142,7 +142,8 @@ public class ItemRepository : IItemRepository
             CategoryId = item.Category.Id,
             Price = item.Price,
             Amount = item.Amount,
-            Id = item.Id };
+            Id = item.Id
+        };
 
         var rowsAffected = await connection.ExecuteAsync(sql, parameters);
 
