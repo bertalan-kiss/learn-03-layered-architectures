@@ -11,6 +11,7 @@ class Program
     {
         var serviceProvider = new ServiceCollection()
             .AddApplicationServices()
+            .AddApplicationValidators()
             .AddInfrastructureServices()
             .BuildServiceProvider();
 
@@ -18,13 +19,13 @@ class Program
         var itemService = serviceProvider.GetService<IItemService>();
         Console.WriteLine("Start");
 
-        var insertedCategoryId = await categoryService.Add(new Category
-        {
-            Name = $"Category_{Guid.NewGuid().ToString()}",
-            Parent = new Category { Id = 23 }
-        });
+        //var insertedCategoryId = await categoryService.Add(new Category
+        //{
+        //    Name = $"Category_{Guid.NewGuid().ToString()}",
+        //    Parent = new Category { Id = 23 }
+        //});
 
-        var item = await categoryService.Get(insertedCategoryId);
+        //var item = await categoryService.Get(insertedCategoryId);
 
         //Console.WriteLine($"{item.Id} {item.Name} {item.ImageUrl} {item.Parent?.Id}");
         //Console.WriteLine();
@@ -49,16 +50,16 @@ class Program
         var insertedItemId = await itemService.Add(new Item
         {
             Name = $"Item_{Guid.NewGuid().ToString()[..8]}",
-            Category = new Category { Id = insertedCategoryId },
+            Category = new Category { Id = 1 },
             Price = 100,
-            Amount = 2
+            //Amount = 2
         });
 
         await itemService.Update(new Item
         {
             Id = insertedItemId,
             Name = $"Item_{Guid.NewGuid().ToString()[..8]}",
-            Category = new Category { Id = insertedCategoryId },
+            Category = new Category { Id = 1 },
             Description = "Description",
             Price = 100,
             Amount = 10
