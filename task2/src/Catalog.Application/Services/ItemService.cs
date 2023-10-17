@@ -8,12 +8,12 @@ namespace Catalog.Application.Services
     public class ItemService : IItemService
     {
         private readonly IItemRepository itemRepository;
-        private readonly ItemValidator itemValidator;
+        private readonly IValidator<Item> itemValidator;
 
-        public ItemService(IItemRepository itemRepository)
+        public ItemService(IItemRepository itemRepository, IValidator<Item> itemValidator)
         {
             this.itemRepository = itemRepository;
-            itemValidator = new ItemValidator();
+            this.itemValidator = itemValidator;
         }
 
         public async Task<int> Add(Item item)

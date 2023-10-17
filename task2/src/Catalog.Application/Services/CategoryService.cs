@@ -1,5 +1,4 @@
 ﻿using Catalog.Application.Interfaces;
-using Catalog.Application.Validators;
 using Catalog.Domain.Entities;
 using FluentValidation;
 
@@ -8,12 +7,12 @@ namespace Catalog.Application.Services;
 public class CategoryService : ICategoryService
 {
     private readonly ICategoryRepository categoryRepository;
-    private readonly CategoryValidator categoryValidator;
+    private readonly IValidator<Category> categoryValidator;
 
-    public CategoryService(ICategoryRepository categoryRepository)
+    public CategoryService(ICategoryRepository categoryRepository, IValidator<Category> categoryValidator)
     {
         this.categoryRepository = categoryRepository;
-        categoryValidator = new CategoryValidator();
+        this.categoryValidator = categoryValidator;
     }
 
     public async Task<int> Add(Category category)
