@@ -2,8 +2,8 @@
 
 namespace Catalog.Infrastructure.DataAccess.Repositories
 {
-	public class BaseRepository
-	{
+    public class BaseRepository
+    {
         internal IDbConnection connection;
 
         public BaseRepository(IDbConnection connection)
